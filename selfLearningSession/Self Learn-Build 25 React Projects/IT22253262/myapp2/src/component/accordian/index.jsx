@@ -1,28 +1,30 @@
-import { useState } from "react"
-import data from './data'
+import { useState } from "react";
+import data from './data';
+import './styles.css';
+
+
 export default function Accordian(){
 
     const [selected, setSelected] = useState(null);
-
+    const [enableMultiSelection, setenableMultiSelection] = useState(false);
+    const [multiple, setmultiple] = useState([]);
+    
     function HandleSingleSelection(currectID){
         //console.log(currectID);
-
-        //// Samecode longway
-        // currectID === selected ? 
-        // setSelected(null)
-        // :
-        // setSelected(currectID);
-
-        // Samecode short way
         setSelected(currectID === selected ? null : currectID);
     }
 
+    function HandleMultiSelection(currectID){
+        
+    }
+
     return <div className="wrapper">
+            <button onClick={() => setenableMultiSelection(!enableMultiSelection)} className="mutiselectbtn">Enable Multi Selection</button>
             <div className="accordian">
             {
                 data && data.length > 0 ?
                 data.map(dataItem=> <div className="item">
-                    <div onClick={()=>HandleSingleSelection(dataItem.id)} className="title">
+                    <div onClick={enableMultiSelection ? ()=>HandleMultiSelection(dataItem.id) : ()=>HandleSingleSelection(dataItem.id)} className="title">
                         <h3>{dataItem.question}</h3>
                         <span>+</span>
                     </div>
@@ -32,7 +34,7 @@ export default function Accordian(){
                         : null
                     }
                 </div>)
-                : <div>No Data Available</div>
+                : <div>No Data Available!</div>
             }
         </div>
     </div>;
